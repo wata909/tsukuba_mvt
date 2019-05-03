@@ -1,0 +1,13 @@
+{
+"name": "tsukuba_mvt_zgd",
+"description": "tsukuba_mvt_zgd",
+"version": "2",
+"minzoom": "0",
+"maxzoom": "12",
+"center": "140.053711,36.137867,12",
+"bounds": "139.995580,35.947181,140.171260,36.236549",
+"type": "overlay",
+"format": "pbf",
+"generator": "tippecanoe v1.31.5",
+"json": "{\"vector_layers\": [ { \"id\": \"08220_2018_05_pre08\", \"description\": \"\", \"minzoom\": 0, \"maxzoom\": 12, \"fields\": {\"lu\": \"String\"} } ],\"tilestats\": {\"layerCount\": 1,\"layers\": [{\"layer\": \"08220_2018_05_pre08\",\"count\": 61740,\"geometry\": \"Polygon\",\"attributeCount\": 1,\"attributes\": [{\"attribute\": \"lu\",\"count\": 2,\"type\": \"string\",\"values\": [\"田\",\"畑\"]}]}]}}"
+}
