@@ -31,8 +31,8 @@ html,body {
 
 <script>
 var map = L.map('map',{
-    maxZoom: 18,
-    minZoom: 12
+    minZoom: 12,
+    maxZoom: 18
 }).setView([36.0815,140.1129], 15) 
 var hash = new L.Hash(map)
 map.addControl( new L.Control.Gps() )
@@ -45,23 +45,26 @@ var  onGsClick = function(e) {
     if (!e.feature) return 
     popup
         .setLatLng(e.latlng)
-        .setContent(e.feature.properties["lu"])
+        .setContent("<b>ID:</b> "+e.feature.properties.uid+"<br><b>Land use:</b> "+e.feature.properties.lu)
         .openOn(map);
 }
 
 
 var mvtSource = new L.TileLayer.MVTSource({
-    url: "./tsukuba_mvt_z15/{z}/{x}/{y}.pbf",
+    url: "./tsukuba_mvt_z18/{z}/{x}/{y}.pbf",
+    minZoom: 12,
     maxZoom: 18,
-//  debug: true,
-    clickableLayers: ["tsukuba-fude"],
+//    debug: true,
+    clickableLayers: ["tsukuba_fude"],
     mutexToggle:true,
     attribution: "<a href='http://www.maff.go.jp/j/tokei/porigon/index.html' target='_blank'>出典：「筆ポリゴンデータ」（農林水産省）（H31年4月26日に利用）</a>",
     getIDForLayerFeature: function(feature) {
-        return feature.properties["lu"];
+        return feature.properties["uid"];
+//        return feature.properties.show_on_map;
+//        return feature.properties["lu"];
     },
     filter: function(feature, context) {
-        if (feature.layer.name === 'tsukuba-fude') {
+        if (feature.layer.name === 'tsukuba_fude') {
             return true;
         }
     return false;
@@ -90,10 +93,16 @@ var mvtSource = new L.TileLayer.MVTSource({
                 };
             break;
             case 3: //'Polygon'
-                style.color = 'rgba(255,0,0,0.5)';
+                var fColor;
+                if (feature.properties.lu=='田'){
+                fColor='rgba(255,255,0,0.5)';}
+                else
+                if (feature.properties.lu=="畑"){
+                fColor='rgba(138,95,46,0.5)';}
+                style.color = fColor;
                 style.outline = {
-                    color:  'rgba(255,0,0,1)',
-                    size: 1
+                    color:  'rgba(0,0,0,0.5)',
+                    size: 0.5
                 };
                 style.selected = {
                     color: 'rgba(255,140,0,0.3)',
