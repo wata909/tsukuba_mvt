@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css"/>
 <link rel="stylesheet" href="./plugin/leaflet-gps.css"/>
-<title>農地の区画情報（筆ポリゴン）・つくば市</title> #change tile of page
+<title>筆ポリゴン・つくば市</title>
 <style>
 html,body {
     width: 100%;
@@ -32,11 +32,12 @@ html,body {
 <script>
 var map = L.map('map',{
     minZoom: 12,
-    maxZoom: 18,
-    autoZIndex: false,
-}).setView([36.0815,140.1129], 15)  // change map center and zoom
+    maxZoom: 18
+}).setView([36.0815,140.1129], 15) 
 var hash = new L.Hash(map)
 map.addControl( new L.Control.Gps() )
+
+
 
 
 var popup = L.popup();
@@ -53,13 +54,14 @@ var mvtSource = new L.TileLayer.MVTSource({
     url: "./tsukuba_mvt_z18/{z}/{x}/{y}.pbf",
     minZoom: 12,
     maxZoom: 18,
-    zIndex: 3,
 //    debug: true,
     clickableLayers: ["tsukuba_fude"],
     mutexToggle:true,
     attribution: "<a href='http://www.maff.go.jp/j/tokei/porigon/index.html' target='_blank'>出典：「筆ポリゴンデータ」（農林水産省）（H31年4月26日に利用）</a>",
     getIDForLayerFeature: function(feature) {
         return feature.properties["uid"];
+//        return feature.properties.show_on_map;
+//        return feature.properties["lu"];
     },
     filter: function(feature, context) {
         if (feature.layer.name === 'tsukuba_fude') {
@@ -117,28 +119,12 @@ var mvtSource = new L.TileLayer.MVTSource({
 });
 
 
-var pale = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
-            {zIndex: 1, attribution: "<a href='http://portal.cyberjapan.jp/help/termsofuse.html' target='_blank'>地理院タイル　淡色地図</a>",
-            maxZoom: 18});
-
-var seamless = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg', 
-            {zIndex: 2, attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル　全国最新写真（シームレス）・全国ランドサットモザイク画像</a>",
-            maxZoom: 18
-            }).addTo(map);
+L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg', {
+    attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル　全国最新写真（シームレス）・全国ランドサットモザイク画像</a>",
+    maxZoom: 18
+}).addTo(map);
 
 map.addLayer(mvtSource);
-
-var baseMaps = {
-    "淡色地図" : pale,
-    "全国最新写真"   :seamless
-    };      
-
-var overlayMaps = {
-    "筆ポリゴン" : mvtSource
-    };
-
-L.control.layers(baseMaps, overlayMaps).addTo(map);
-
 </script>
 </body>
 </html>
