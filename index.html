@@ -59,7 +59,8 @@ var mvtSource = new L.TileLayer.MVTSource({
     mutexToggle:true,
     attribution: "<a href='http://www.maff.go.jp/j/tokei/porigon/index.html' target='_blank'>出典：「筆ポリゴンデータ」（農林水産省）（H31年4月26日に利用）</a>",
     getIDForLayerFeature: function(feature) {
-        return feature.properties["uid"];
+//        return feature.properties["uid"];
+        return feature.properties["mvt_id"];
     },
     filter: function(feature, context) {
         if (feature.layer.name === 'tsukuba_fude') {
